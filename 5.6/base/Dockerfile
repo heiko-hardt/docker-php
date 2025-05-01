@@ -7,12 +7,7 @@ LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
 # Switch sources to archive mirror (https://debiansupport.com/mirrors)
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.deprecated \
     && echo "deb http://archive.debian.org/debian/ stretch main contrib non-free" > /etc/apt/sources.list \
-    && echo "deb http://archive.debian.org/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list \
-    && apt-get update \
-    && apt-get upgrade -y \
-    && apt-get autoremove -y \
-    && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+    && echo "deb http://archive.debian.org/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list
 
 # Locals & Timezone
 RUN apt-get update \
