@@ -1,7 +1,7 @@
 
 CMD-DOCKER-IMAGE-VENDOR = hhdev
 CMD-DOCKER-IMAGE-NAME = php
-CMD-DOCKER-IMAGE-TIER = 5.6-apache
+CMD-DOCKER-IMAGE-TIER = 5.6-apache-dev-vsc
 CMD-DOCKER-USER_NAME = "$(shell id -un)"
 CMD-DOCKER-USER_ID = "$(shell id -u)"
 CMD-DOCKER-GROUP_NAME = "$(shell id -gn)"

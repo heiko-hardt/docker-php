@@ -4,10 +4,15 @@ FROM php:5.6.40-apache-stretch
 LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
     description="Yet another Apache Mod-PHP environment focused on TYPO3 and Symfony applications"
 
-# Switch sources to archive and update environment
+# Switch sources to archive mirror (https://debiansupport.com/mirrors)
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.deprecated \
-    && echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list \
-    && echo "deb http://archive.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list
+    && echo "deb http://archive.debian.org/debian/ stretch main contrib non-free" > /etc/apt/sources.list \
+    && echo "deb http://archive.debian.org/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
 
 # Locals & Timezone
 RUN apt-get update \
@@ -83,7 +88,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install -j$(nproc) bcmath \
     && docker-php-ext-install -j$(nproc) exif \
-    && docker-php-ext-configure gd --with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir \
+    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) imap \
