@@ -114,7 +114,7 @@ RUN chmod +x /usr/local/bin/docker-php-entrypoint.extend.* \
 # Production environment
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     # Add default ini parameter
-    && printf "[PHP]\nmemory_limit = 256M\nmax_execution_time = 240\nmax_input_vars = 1500\nupload_max_filesize = 50M\npost_max_size = 50M\n\n[Date]\ndate.timezone = Europe/Berlin\n" > "$PHP_INI_DIR/conf.d/additional.ini"
+    && printf "[PHP]\nmemory_limit = 256M\nmax_execution_time = 240\nmax_input_vars = 1500\nalways_populate_raw_post_data = -1\nupload_max_filesize = 50M\npost_max_size = 50M\n\n[Date]\ndate.timezone = Europe/Berlin\n" > "$PHP_INI_DIR/conf.d/additional.ini"
 
 EXPOSE 8800
 EXPOSE 8443
