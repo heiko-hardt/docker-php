@@ -2,7 +2,7 @@
 CMD-DOCKER-IMAGE-VENDOR = hhdev
 CMD-DOCKER-IMAGE-NAME = php
 CMD-DOCKER-IMAGE-TIER = 8.2-apache
-CMD-DOCKER-USER = "$(shell id -u):$(shell id -g)"
+CMD-DOCKER-USER = "${shell id -u}:${shell id -g}"
 
 build:
 	docker build \
@@ -10,10 +10,10 @@ build:
 		--progress=plain \
 		--no-cache \
 		--rm \
-		-t $(CMD-DOCKER-IMAGE-VENDOR)/$(CMD-DOCKER-IMAGE-NAME):$(CMD-DOCKER-IMAGE-TIER) .
+		-t ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER} .
 
 clean:
-	@docker rmi $(CMD-DOCKER-IMAGE-VENDOR)/$(CMD-DOCKER-IMAGE-NAME):$(CMD-DOCKER-IMAGE-TIER)
+	@docker rmi ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER}
 	@docker builder prune --all --force
 
 up:
@@ -21,10 +21,12 @@ up:
 		--name ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER} \
 		-u ${CMD-DOCKER-USER} \
 		-p 8800:8800 \
+		-p 8443:8443 \
 		-v ${PWD}/htdocs/:/var/www/html/ \
-		-e WEB_SERVER_NAME=127.0.0.1 \
-		-t $(CMD-DOCKER-IMAGE-VENDOR)/$(CMD-DOCKER-IMAGE-NAME):$(CMD-DOCKER-IMAGE-TIER)
-	@echo "   Start browsing: http://127.0.0.1:8800"
+		-e WEB_SERVER_NAME=localhost \
+		-t ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER}
+	@echo "   Start browsing: http://localhost:8800"
+	@echo "                   https://localhost:8443"
 
 down:
 	@docker stop ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER}
@@ -32,3 +34,6 @@ down:
 
 console:
 	@docker exec -it ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER} /bin/bash
+
+push:
+	docker push ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER}
