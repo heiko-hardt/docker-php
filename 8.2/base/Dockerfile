@@ -70,7 +70,6 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
 ###################################################################################################
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        default-mysql-client \
         ghostscript \
         graphicsmagick \
         libc-client-dev \

@@ -10,7 +10,15 @@ ARG PHP_XDEBUG_VERSION="3.4.2"
 
 # Development tools
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git mc openssh-client sqlite3 vim wget unzip  \
+    && apt-get install -y --no-install-recommends \
+        default-mysql-client \
+        git \
+        mc \
+        openssh-client \
+        sqlite3 \
+        unzip  \
+        vim \
+        wget \
     && rm -rf /var/lib/apt/lists/* \
     # Update PHP setup
     && pecl install xdebug-${PHP_XDEBUG_VERSION} \
