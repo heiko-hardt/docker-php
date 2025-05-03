@@ -23,11 +23,11 @@ if [ -z "$RUN_AS_ROOT" ]; then
 
     # Output service user
     if [ -z "$RUN_SILENT" ]; then
-        echo "Run as user: $APP_USER_NAME[id:$APP_USER_ID]:$APP_GROUP_NAME[id:$APP_GROUP_ID]"
+        echo "  Run as user: $APP_USER_NAME[id:$APP_USER_ID]:$APP_GROUP_NAME[id:$APP_GROUP_ID]"
     fi
 else
     # Output service user: root
     if [ -z "$RUN_SILENT" ]; then
-        echo "Run as root"
+        echo "  Run as root"
     fi
 fi
