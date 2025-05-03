@@ -24,7 +24,7 @@ up:
 		--name ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER} \
 		-p 8800:8800 \
 		-p 8443:8443 \
-		-v ${PWD}/htdocs/:/var/www/html/ \
+		-v ${PWD}/htdocs:/var/www/html \
 		-e WEB_SERVER_NAME=localhost \
 		-e WEB_SERVER_ALIAS=127.0.0.1 \
 		-e USER_NAME=${CMD-DOCKER-USER_NAME} \
@@ -38,6 +38,9 @@ up:
 down:
 	@docker stop ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER}
 	@docker rm ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER}
+
+log:
+	@docker logs -f ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER}
 
 console:
 	@docker exec -it --user ${CMD-DOCKER-USER_NAME} ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER} /bin/bash

@@ -22,7 +22,7 @@ up:
 		-u ${CMD-DOCKER-USER} \
 		-p 8800:8800 \
 		-p 8443:8443 \
-		-v ${PWD}/htdocs/:/var/www/html/ \
+		-v ${PWD}/htdocs:/var/www/html \
 		-e WEB_SERVER_NAME=localhost \
 		-t ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER}
 	@echo "   Start browsing: http://localhost:8800"
@@ -31,6 +31,9 @@ up:
 down:
 	@docker stop ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER}
 	@docker rm ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER}
+
+log:
+	@docker logs -f ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER}
 
 console:
 	@docker exec -it ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER} /bin/bash
