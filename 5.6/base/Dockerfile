@@ -103,6 +103,7 @@ RUN apt-get update \
 # Extend ENTRYPOINT
 COPY resources /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-entrypoint.extend.* \
+    && chmod +x /usr/local/bin/docker-php-entrypoint.feature.* \
     && mv /usr/local/bin/docker-php-entrypoint /usr/local/bin/docker-php-entrypoint.original \
     && mv /usr/local/bin/docker-php-entrypoint.extend.sh /usr/local/bin/docker-php-entrypoint
 
