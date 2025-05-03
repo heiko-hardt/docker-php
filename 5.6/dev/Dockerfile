@@ -5,9 +5,14 @@ LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
     description="Yet another Apache Mod-PHP environment focused on TYPO3 and Symfony applications (development)"
 
 # https://getcomposer.org/download/ (Latest LTS)
-ARG COMPOSER_VERSION="2.2.25"
+ARG COMPOSER1_VERSION="1.10.27"
+ARG COMPOSER2_VERSION="2.2.25"
 # https://xdebug.org/
 ARG PHP_XDEBUG_VERSION="2.5.5"
+
+# Extend ENTRYPOINT
+COPY resources /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-php-entrypoint.feature.*
 
 # Development tools
 RUN apt-get update \
@@ -29,4 +34,6 @@ RUN apt-get update \
     # Add custom ini parameter
     && printf "[PHP]\nmemory_limit = 512M\nmax_execution_time = 3600\nmax_input_vars = 1500\nalways_populate_raw_post_data = -1\nupload_max_filesize = 50M\npost_max_size = 50M\n\n[Date]\ndate.timezone = Europe/Berlin\n" > "$PHP_INI_DIR/conf.d/additional.ini" \
     # Fetch & install composer binary
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --version=${COMPOSER_VERSION} --filename=composer
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --version=${COMPOSER1_VERSION} --filename=composer-1x.phar \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --version=${COMPOSER2_VERSION} --filename=composer-2x.phar \
+    && ln -s /usr/local/bin/composer-2x.phar /usr/local/bin/composer

@@ -31,6 +31,8 @@ up:
 		-e USER_ID=${CMD-DOCKER-USER_ID} \
 		-e GROUP_NAME=${CMD-DOCKER-GROUP_NAME} \
 		-e GROUP_ID=${CMD-DOCKER-GROUP_ID} \
+		-e XDEBUG_CLIENT_HOST=host.docker.internal \
+		-e ENABLE_COMPOSER_VERSION_1=true \
 		-t ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER}
 	@echo "   Start browsing: http://localhost:8800"
 	@echo "                   https://localhost:8443"
