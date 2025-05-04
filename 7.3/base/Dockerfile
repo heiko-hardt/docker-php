@@ -1,5 +1,5 @@
-# Distro: Debian 9.x Stretch (https://hub.docker.com/_/php)
-FROM php:5.6.40-apache-stretch
+# Distro: Debian 11.x Bullseye (https://hub.docker.com/_/php)
+FROM php:7.3.33-apache-bullseye
 
 LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
     description="Yet another Apache Mod-PHP environment focused on TYPO3 and Symfony applications"
@@ -8,11 +8,8 @@ LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
 ARG DEBIAN_FRONTEND=noninteractive
 # Set terminal type
 ARG TERM=xterm
-
-# Switch sources to archive mirror (https://debiansupport.com/mirrors)
-RUN mv /etc/apt/sources.list /etc/apt/sources.list.deprecated \
-    && echo "deb http://archive.debian.org/debian/ stretch main contrib non-free" > /etc/apt/sources.list \
-    && echo "deb http://archive.debian.org/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list
+# https://pecl.php.net/package/apcu
+ARG PHP_APCU_VERSION="5.1.24"
 
 # Locals & Timezone
 RUN apt-get update \
@@ -86,6 +83,7 @@ RUN apt-get update \
         libxpm-dev \
         libzip-dev \
     && rm -rf /var/lib/apt/lists/* \
+    && pecl install apcu-${PHP_APCU_VERSION} \
     && docker-php-ext-install -j$(nproc) bcmath \
     && docker-php-ext-install -j$(nproc) exif \
     && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir \
@@ -103,7 +101,8 @@ RUN apt-get update \
     && docker-php-ext-install -j$(nproc) soap \
     && docker-php-ext-install -j$(nproc) sockets \
     && docker-php-ext-install -j$(nproc) xml \
-    && docker-php-ext-install -j$(nproc) zip
+    && docker-php-ext-install -j$(nproc) zip \
+    && docker-php-ext-enable apcu
 
 # Extend ENTRYPOINT
 COPY resources /usr/local/bin/
@@ -115,7 +114,7 @@ RUN chmod +x /usr/local/bin/docker-php-entrypoint.extend.* \
 # Production environment
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     # Add default ini parameter
-    && printf "[PHP]\nmemory_limit = 256M\nmax_execution_time = 240\nmax_input_vars = 1500\nalways_populate_raw_post_data = -1\nupload_max_filesize = 50M\npost_max_size = 50M\n\n[Date]\ndate.timezone = Europe/Berlin\n" > "$PHP_INI_DIR/conf.d/additional.ini"
+    && printf "[PHP]\nmemory_limit = 256M\nmax_execution_time = 240\nmax_input_vars = 1500\nupload_max_filesize = 50M\npost_max_size = 50M\n\n[Date]\ndate.timezone = Europe/Berlin\n" > "$PHP_INI_DIR/conf.d/additional.ini"
 
 EXPOSE 8800
 EXPOSE 8443
