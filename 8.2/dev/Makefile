@@ -10,7 +10,8 @@ build:
 		--progress=plain \
 		--no-cache \
 		--rm \
-		-t ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER} .
+		-t ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER} . \
+		> build.log 2>&1
 
 clean:
 	@docker rmi ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER}
