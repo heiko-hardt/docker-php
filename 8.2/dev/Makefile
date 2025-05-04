@@ -2,7 +2,10 @@
 CMD-DOCKER-IMAGE-VENDOR = hhdev
 CMD-DOCKER-IMAGE-NAME = php
 CMD-DOCKER-IMAGE-TIER = 8.2-apache-dev
-CMD-DOCKER-USER = "${shell id -u}:${shell id -g}"
+CMD-DOCKER-USER_NAME = "$(shell id -un)"
+CMD-DOCKER-USER_ID = "$(shell id -u)"
+CMD-DOCKER-GROUP_NAME = "$(shell id -gn)"
+CMD-DOCKER-GROUP_ID = "$(shell id -g)"
 
 build:
 	docker build \
@@ -20,11 +23,17 @@ clean:
 up:
 	@docker run -d \
 		--name ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER} \
-		-u ${CMD-DOCKER-USER} \
 		-p 8800:8800 \
 		-p 8443:8443 \
 		-v ${PWD}/htdocs:/var/www/html \
 		-e WEB_SERVER_NAME=localhost \
+		-e WEB_SERVER_ALIAS=127.0.0.1 \
+		-e USER_NAME=${CMD-DOCKER-USER_NAME} \
+		-e USER_ID=${CMD-DOCKER-USER_ID} \
+		-e GROUP_NAME=${CMD-DOCKER-GROUP_NAME} \
+		-e GROUP_ID=${CMD-DOCKER-GROUP_ID} \
+		-e XDEBUG_CONFIG="client_host=host.docker.internal" \
+		-e XDEBUG_MODE="debug,develop" \
 		-t ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER}
 	@echo "   Start browsing: http://localhost:8800"
 	@echo "                   https://localhost:8443"
@@ -37,7 +46,7 @@ log:
 	@docker logs -f ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER}
 
 console:
-	@docker exec -it ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER} /bin/bash
+	@docker exec -it --user ${CMD-DOCKER-USER_NAME} ${CMD-DOCKER-IMAGE-VENDOR}_${CMD-DOCKER-IMAGE-NAME}_${CMD-DOCKER-IMAGE-TIER} /bin/bash
 
 push:
 	docker push ${CMD-DOCKER-IMAGE-VENDOR}/${CMD-DOCKER-IMAGE-NAME}:${CMD-DOCKER-IMAGE-TIER}

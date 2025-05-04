@@ -1,5 +1,4 @@
-# Distro: Debian 11.x bullseye (https://hub.docker.com/_/php) based on:
-# https://github.com/docker-library/php/blob/master/8.2/bullseye/apache/Dockerfile
+# Distro: Debian 11.x Bullseye (https://hub.docker.com/_/php)
 FROM hhdev/php:8.2-apache
 
 LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \

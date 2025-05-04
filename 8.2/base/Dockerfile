@@ -1,14 +1,13 @@
-# Distro: Debian 11.x bullseye (https://hub.docker.com/_/php) based on:
-# https://github.com/docker-library/php/blob/master/8.2/bullseye/apache/Dockerfile
+# Distro: Debian 11.x Bullseye (https://hub.docker.com/_/php)
 FROM php:8.2.28-apache-bullseye
+
+# Distro: Debian 12.x bookworm (https://hub.docker.com/_/php)
+# FROM php:8.1.32-apache-bookworm
+# Rollback to Bullseye cause issue: https://github.com/dunglas/symfony-docker/issues/614
+# problem: libcurl versions 7.87.0, 7.88.0 and 7.88.1 in bookworm
 
 LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
     description="Yet another Apache Mod-PHP environment focused on TYPO3 and Symfony applications"
-
-# Distro: Debian 12.x bookworm (https://hub.docker.com/_/php)
-# FROM php:8.2.28-apache-bookworm
-# Rollback to Bullseye cause issue: https://github.com/dunglas/symfony-docker/issues/614
-# problem: libcurl versions 7.87.0, 7.88.0 and 7.88.1 in bookworm
 
 # Set non-interactive mode for apt-get
 ARG DEBIAN_FRONTEND=noninteractive
@@ -113,6 +112,7 @@ RUN apt-get update \
 # Extend ENTRYPOINT
 COPY resources /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-entrypoint.extend.* \
+    && chmod +x /usr/local/bin/docker-php-entrypoint.feature.* \
     && mv /usr/local/bin/docker-php-entrypoint /usr/local/bin/docker-php-entrypoint.original \
     && mv /usr/local/bin/docker-php-entrypoint.extend.sh /usr/local/bin/docker-php-entrypoint
 
