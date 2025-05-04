@@ -5,6 +5,10 @@ FROM hhdev/php:8.2-apache
 LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
     description="Yet another Apache Mod-PHP environment focused on TYPO3 and Symfony applications (development)"
 
+# Set non-interactive mode for apt-get
+ARG DEBIAN_FRONTEND=noninteractive
+# Set terminal type
+ARG TERM=xterm
 # https://getcomposer.org/download/ (Latest LTS)
 ARG COMPOSER_VERSION="2.2.25"
 # https://xdebug.org/

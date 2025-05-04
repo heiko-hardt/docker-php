@@ -4,6 +4,11 @@ FROM php:5.6.40-apache-stretch
 LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
     description="Yet another Apache Mod-PHP environment focused on TYPO3 and Symfony applications"
 
+# Set non-interactive mode for apt-get
+ARG DEBIAN_FRONTEND=noninteractive
+# Set terminal type
+ARG TERM=xterm
+
 # Switch sources to archive mirror (https://debiansupport.com/mirrors)
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.deprecated \
     && echo "deb http://archive.debian.org/debian/ stretch main contrib non-free" > /etc/apt/sources.list \
@@ -68,18 +73,18 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
 ###################################################################################################
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        ghostscript \
-        graphicsmagick \
-        libc-client-dev \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libkrb5-dev \
-        libldap2-dev \
-        libpng-dev \
-        libwebp-dev \
-        libxml2-dev \
-        libxpm-dev \
-        libzip-dev \
+    ghostscript \
+    graphicsmagick \
+    libc-client-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libkrb5-dev \
+    libldap2-dev \
+    libpng-dev \
+    libwebp-dev \
+    libxml2-dev \
+    libxpm-dev \
+    libzip-dev \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install -j$(nproc) bcmath \
     && docker-php-ext-install -j$(nproc) exif \

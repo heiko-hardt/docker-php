@@ -10,6 +10,10 @@ LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
 # Rollback to Bullseye cause issue: https://github.com/dunglas/symfony-docker/issues/614
 # problem: libcurl versions 7.87.0, 7.88.0 and 7.88.1 in bookworm
 
+# Set non-interactive mode for apt-get
+ARG DEBIAN_FRONTEND=noninteractive
+# Set terminal type
+ARG TERM=xterm
 # https://pecl.php.net/package/apcu
 ARG PHP_APCU_VERSION="5.1.24"
 

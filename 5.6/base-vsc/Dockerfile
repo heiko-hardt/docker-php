@@ -4,6 +4,11 @@ FROM hhdev/php:5.6-apache
 LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
     description="Yet another Apache Mod-PHP environment focused on TYPO3 and Symfony applications (vscode)"
 
+# Set non-interactive mode for apt-get
+ARG DEBIAN_FRONTEND=noninteractive
+# Set terminal type
+ARG TERM=xterm
+    
 # Switch sources and upgrade environment (https://debiansupport.com/mirrors)
 RUN apt-get update \
     && apt-get upgrade -y \
