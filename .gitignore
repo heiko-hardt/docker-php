@@ -1,2 +1,9 @@
-/.archive/
-build.log
+# System files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+/.idea
+/.archive
+/.mount
+*.log
