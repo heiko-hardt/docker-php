@@ -24,6 +24,7 @@ RUN apt-get update \
         unzip  \
         vim \
         wget \
+        zsh \
     && rm -rf /var/lib/apt/lists/* \
     # Update PHP setup
     && pecl install xdebug-${PHP_XDEBUG_VERSION} \

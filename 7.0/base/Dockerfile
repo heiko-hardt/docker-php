@@ -13,8 +13,8 @@ ARG PHP_APCU_VERSION="5.1.24"
 
 # Switch sources to archive mirror (https://debiansupport.com/mirrors)
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.deprecated \
-    && echo "deb http://archive.debian.org/debian/ stretch main contrib non-free" > /etc/apt/sources.list \
-    && echo "deb http://archive.debian.org/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list
+    && echo "deb [trusted=yes] http://archive.debian.org/debian/ stretch main contrib non-free" > /etc/apt/sources.list \
+    && echo "deb [trusted=yes] http://archive.debian.org/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list
 
 # Locals & Timezone
 RUN apt-get update \
