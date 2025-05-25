@@ -77,6 +77,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ghostscript \
         graphicsmagick \
+        libavif-dev \
         libc-client-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -91,7 +92,7 @@ RUN apt-get update \
     && pecl install apcu-${PHP_APCU_VERSION} \
     && docker-php-ext-install -j$(nproc) bcmath \
     && docker-php-ext-install -j$(nproc) exif \
-    && docker-php-ext-configure gd --with-jpeg --with-xpm --with-webp --with-freetype \
+    && docker-php-ext-configure gd --with-jpeg --with-xpm --with-webp --with-freetype --with-avif \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) imap \
