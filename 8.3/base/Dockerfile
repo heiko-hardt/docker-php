@@ -1,10 +1,5 @@
-# Distro: Debian 11.x Bullseye (https://hub.docker.com/_/php)
-FROM php:8.3.20-apache-bullseye
-
 # Distro: Debian 12.x bookworm (https://hub.docker.com/_/php)
-# FROM php:8.1.32-apache-bookworm
-# Rollback to Bullseye cause issue: https://github.com/dunglas/symfony-docker/issues/614
-# problem: libcurl versions 7.87.0, 7.88.0 and 7.88.1 in bookworm
+FROM php:8.3.20-apache-bookworm
 
 LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
     description="Yet another Apache Mod-PHP environment focused on TYPO3 and Symfony applications"

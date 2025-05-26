@@ -1,4 +1,4 @@
-# Distro: Debian 11.x Bullseye (https://hub.docker.com/_/php)
+# Distro: Debian 12.x bookworm (https://hub.docker.com/_/php)
 FROM hhdev/php:8.1-apache
 
 LABEL maintainer="Heiko Hardt <heiko@hardt.dev>" \
